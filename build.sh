@@ -156,6 +156,9 @@ build_release eigen eigen-git-mirror-3.3.7 https://github.com/eigenteam/eigen-gi
 
 build_release tinyxml2 tinyxml2-7.1.0 https://github.com/leethomason/tinyxml2/archive/7.1.0.tar.gz
 
+export CMAKE_OPTIONS="-DBUILD_SHARED_LIBS=OFF -DASSIMP_BUILD_ALL_EXPORTERS_BY_DEFAULT=OFF -DASSIMP_BUILD_ALL_IMPORTERS_BY_DEFAULT=OFF -DASSIMP_BUILD_COLLADA_IMPORTER=ON -DASSIMP_BUILD_STL_IMPORTER=ON"
+build_release assimp assimp-5.0.1 https://github.com/assimp/assimp/archive/v5.0.1.tar.gz
+
 export CMAKE_OPTIONS="${CMAKE_OPTIONS} -DBUILD_DOCUMENTATION=OFF -DBUILD_SHARED_LIBS=OFF -DDISABLE_GEOS_INLINE=ON"
 build_github libgeos/geos master
 
