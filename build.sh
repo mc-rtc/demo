@@ -130,7 +130,7 @@ fi
 
 # Options
 export CMAKE_BUILD_TYPE=Release
-export CXXFLAGS="-matomics -s USE_PTHREADS=1"
+export CXXFLAGS="-matomics -s USE_PTHREADS=1 -s DISABLE_EXCEPTION_CATCHING=0"
 
 # Copy our patched jam configuration
 cp $this_dir/emscripten.jam tools/build/src/tools/
