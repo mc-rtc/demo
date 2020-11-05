@@ -47,13 +47,15 @@ source $this_dir/emsdk/emsdk_env.sh
 export EM_PREFIX=$EMSDK/upstream/emscripten/system
 echo "::endgroup::"
 
+export FORCE_JRL_CMAKEMODULES_UPDATE=false
+
 # Helper function to build a CMake project
 build_cmake_project()
 {
   name=$1
   src=$2
   # FIXME Work around for project that use jrl-cmakemodules but don't have jrl-cmakemodules#459
-  if [ -d $src/cmake ]
+  if [ $FORCE_JRL_CMAKEMODULES_UPDATE && -d $src/cmake ]
   then
     cd $src/cmake
     git pull origin master || true
@@ -159,6 +161,8 @@ build_release spdlog spdlog-1.6.1 https://github.com/gabime/spdlog/archive/v1.6.
 
 export CMAKE_OPTIONS="-DBUILD_TESTING=OFF -DBUILD_PYTHON_INTERFACE=OFF -DINSTALL_DOCUMENTATION=OFF"
 build_github humanoid-path-planner/hpp-spline v4.7.0
+
+export FORCE_JRL_CMAKEMODULES_UPDATE=true
 
 export CMAKE_OPTIONS="-DBUILD_TESTING=OFF -DPYTHON_BINDING=OFF -DUSE_F2C=ON -DINSTALL_DOCUMENTATION=OFF"
 build_github jrl-umi3218/SpaceVecAlg master
