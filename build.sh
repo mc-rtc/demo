@@ -33,10 +33,6 @@ source ./emsdk_env.sh
 
 export EM_PREFIX=$EMSDK/upstream/emscripten/system
 
-# Options
-export CMAKE_BUILD_TYPE=Release
-export CXXFLAGS="-matomics -s USE_PTHREADS=1"
-
 # Helper function to build a CMake project
 build_cmake_project()
 {
@@ -104,6 +100,11 @@ if [ ! -f ./b2 ]
 then
   ./bootstrap.sh || (cat bootstrap.log && false)
 fi
+
+# Options
+export CMAKE_BUILD_TYPE=Release
+export CXXFLAGS="-matomics -s USE_PTHREADS=1"
+
 # Copy our patched jam configuration
 cp $this_dir/emscripten.jam tools/build/src/tools/
 emconfigure ./b2 toolset=emscripten --with-filesystem --with-timer --with-program_options --with-system --with-serialization --prefix=$EM_PREFIX variant=release link=static install
