@@ -77,6 +77,7 @@ build_git()
   then
     cd $src_dir
     git clone --recursive $uri $src_dir/$name
+    cd $src_dir/$name
     git checkout $branch -B $branch
     git submodule sync --recursive && git submodule update --init --recursive
   fi
