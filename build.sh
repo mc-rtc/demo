@@ -85,7 +85,7 @@ build_git()
     cd $src_dir
     git clone --recursive $uri $src_dir/$name
     cd $src_dir/$name
-    git checkout origin/$branch -B $branch
+    git checkout origin/$branch -B $branch || git checkout $branch -B $branch
     git submodule sync --recursive && git submodule update --init --recursive
   fi
   build_cmake_project $name $src_dir/$name
