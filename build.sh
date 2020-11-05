@@ -55,10 +55,16 @@ build_cmake_project()
   name=$1
   src=$2
   # FIXME Work around for project that use jrl-cmakemodules but don't have jrl-cmakemodules#459
-  if [ $FORCE_JRL_CMAKEMODULES_UPDATE && -d $src/cmake ]
+  if $FORCE_JRL_CMAKEMODULES_UPDATE && [ -d $src/cmake ]
   then
     cd $src/cmake
-    git pull origin master || true
+    git pull origin master
+  fi
+  # FIXME Patch for Tasks
+  if [ $name == "Tasks" ]
+  then
+    cd $src
+    sed -i -e's/add_definitions(-mfpmath=sse -msse2)//' CMakeLists.txt
   fi
   mkdir -p $build_dir/$name
   cd $build_dir/$name
