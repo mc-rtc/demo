@@ -182,7 +182,7 @@ build_github jrl-umi3218/mc_rtc_data master
 build_github jrl-umi3218/eigen-quadprog master
 
 export CMAKE_OPTIONS="${CMAKE_OPTIONS} -DDISABLE_ROS=ON -DMC_RTC_BUILD_STATIC=ON -DMC_RTC_DISABLE_NETWORK=ON"
-build_github jrl-umi3218/mc_rtc topic/wasm
+build_github gergondet/mc_rtc topic/wasm
 
 build_github gergondet/mc_rtc-raylib master
 cp $build_dir/mc_rtc-raylib/index.* $artifacts/
