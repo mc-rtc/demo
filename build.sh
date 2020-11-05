@@ -52,15 +52,14 @@ build_cmake_project()
 {
   name=$1
   src=$2
+  # FIXME Work around for project that use jrl-cmakemodules but don't have jrl-cmakemodules#459
+  if [ -d $src/cmake ]
+  then
+    cd $src/cmake
+    git pull origin master || true
+  fi
   mkdir -p $build_dir/$name
   cd $build_dir/$name
-  # FIXME Work around for project that use jrl-cmakemodules but don't have jrl-cmakemodules#459
-  if [ -d cmake ]
-  then
-    cd cmake
-    git pull origin master
-    cd ../
-  fi
   emcmake $CMAKE $src -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${EM_PREFIX} ${CMAKE_OPTIONS}
   emmake make -j$(nproc)
   emmake make install
