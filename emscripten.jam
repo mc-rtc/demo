@@ -84,12 +84,12 @@ toolset.flags emscripten.link OPTIONS <link-optimization>full : --llvm-lto 3 ;
 
 actions compile.c
 {
-    "$(CONFIG_COMMAND)" -x c $(OPTIONS) -D$(DEFINES) -I"$(INCLUDES)" -c -o "$(<)" "$(>)"
+    "$(CONFIG_COMMAND)" -matomics -s USE_PTHREADS=1 -x c $(OPTIONS) -D$(DEFINES) -I"$(INCLUDES)" -c -o "$(<)" "$(>)"
 }
 
 actions compile.c++
 {
-    "$(CONFIG_COMMAND)" -x c++ $(OPTIONS) -D$(DEFINES) -I"$(INCLUDES)" -c -o "$(<)" "$(>)"
+    "$(CONFIG_COMMAND)" -matomics -s USE_PTHREADS=1 -x c++ $(OPTIONS) -D$(DEFINES) -I"$(INCLUDES)" -c -o "$(<)" "$(>)"
 }
 
 actions archive
