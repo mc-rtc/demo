@@ -11,6 +11,9 @@ mkdir -p $artifacts_dir
 mkdir -p $build_dir
 mkdir -p $src_dir
 
+# Install pre-requisites packages
+sudo apt-get install -y build-essential
+
 # Install recent CMake
 if [ ! -f $this_dir/cmake/bin/cmake ]
 then
