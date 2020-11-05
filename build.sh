@@ -14,7 +14,7 @@ mkdir -p $src_dir
 # Install recent CMake
 if [ ! -f $this_dir/cmake/bin/cmake ]
 then
-  wget https://github.com/Kitware/CMake/releases/download/v3.18.4/cmake-3.18.4-Linux-x86_64.tar.gz
+  wget --quiet https://github.com/Kitware/CMake/releases/download/v3.18.4/cmake-3.18.4-Linux-x86_64.tar.gz
   tar xzf cmake-3.18.4-Linux-x86_64.tar.gz
   mv cmake-3.18.4-Linux-x86_64.tar.gz cmake
 fi
@@ -83,7 +83,7 @@ build_release()
   uri=$3
   if [ ! -d $src_dir/$folder ]
   then
-    wget $uri -O - | tar -xz
+    wget --quiet $uri -O - | tar -xz
   fi
   build_cmake_project $name $src_dir/$folder
 }
@@ -92,14 +92,14 @@ build_release()
 if [ ! -d $src_dir/boost_1_74_0 ]
 then
   cd $src_dir
-  wget https://dl.bintray.com/boostorg/release/1.74.0/source/boost_1_74_0.tar.bz2
+  wget --quiet https://dl.bintray.com/boostorg/release/1.74.0/source/boost_1_74_0.tar.bz2
   tar xjf boost_1_74_0.tar.bz2
   rm -f boost_1_74_0.tar.bz2
 fi
 cd $src_dir/boost_1_74_0
 if [ ! -f ./b2 ]
 then
-  ./bootstrap.sh
+  ./bootstrap.sh || (cat bootstrap.log && false)
 fi
 # Copy our patched jam configuration
 cp $this_dir/emscripten.jam tools/build/src/tools/
