@@ -188,4 +188,4 @@ export CMAKE_OPTIONS="${CMAKE_OPTIONS} -DDISABLE_ROS=ON -DMC_RTC_BUILD_STATIC=ON
 build_github gergondet/mc_rtc topic/wasm
 
 build_github gergondet/mc_rtc-raylib master
-cp $build_dir/mc_rtc-raylib/index.* $artifacts/
+cp $build_dir/mc_rtc-raylib/index.* $artifacts_dir/
