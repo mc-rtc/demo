@@ -17,13 +17,18 @@ sudo apt-get install -y build-essential
 echo "::group::Install CMake"
 if [ ! -f $this_dir/cmake/bin/cmake ]
 then
+  cd $this_dir
   wget --quiet https://github.com/Kitware/CMake/releases/download/v3.18.4/cmake-3.18.4-Linux-x86_64.tar.gz
   tar xzf cmake-3.18.4-Linux-x86_64.tar.gz
   mv cmake-3.18.4-Linux-x86_64.tar.gz cmake
 fi
-echo "::endgroup::"
-
 export CMAKE=$this_dir/cmake/bin/cmake
+if [ ! -f $CMAKE ]
+then
+  echo "CMake installation went wrong" && false
+fi
+$CMAKE --version
+echo "::endgroup::"
 
 echo "::group::Install emscripten"
 git clone https://github.com/emscripten-core/emsdk.git
@@ -31,9 +36,8 @@ cd emsdk
 ./emsdk install latest
 ./emsdk activate latest
 source ./emsdk_env.sh
-echo "::endgroup::"
-
 export EM_PREFIX=$EMSDK/upstream/emscripten/system
+echo "::endgroup::"
 
 # Helper function to build a CMake project
 build_cmake_project()
