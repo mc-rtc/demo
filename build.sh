@@ -14,22 +14,24 @@ mkdir -p $src_dir
 # Install pre-requisites packages
 sudo apt-get install -y build-essential
 
-# Install recent CMake
+echo "::group::Install CMake"
 if [ ! -f $this_dir/cmake/bin/cmake ]
 then
   wget --quiet https://github.com/Kitware/CMake/releases/download/v3.18.4/cmake-3.18.4-Linux-x86_64.tar.gz
   tar xzf cmake-3.18.4-Linux-x86_64.tar.gz
   mv cmake-3.18.4-Linux-x86_64.tar.gz cmake
 fi
+echo "::endgroup::"
 
 export CMAKE=$this_dir/cmake/bin/cmake
 
-# Download and install emscripten
+echo "::group::Install emscripten"
 git clone https://github.com/emscripten-core/emsdk.git
 cd emsdk
 ./emsdk install latest
 ./emsdk activate latest
 source ./emsdk_env.sh
+echo "::endgroup::"
 
 export EM_PREFIX=$EMSDK/upstream/emscripten/system
 
@@ -55,17 +57,19 @@ build_cmake_project()
 # Helper to build from git
 build_git()
 {
+  echo "::group::Install $1"
   name=$1
   uri=$2
   branch=$3
   if [ ! -d $src_dir/$name ]
   then
     cd $src_dir
-    git clone --recursive $uri $name
+    git clone --recursive $uri $src_dir/$name
     git checkout $branch -B $branch
     git submodule sync --recursive && git submodule update --init --recursive
   fi
   build_cmake_project $name $src_dir/$name
+  echo "::endgroup::"
 }
 
 # Helper to build from a GitHub project
@@ -77,6 +81,7 @@ build_github()
 # Helper to build from a tarball
 build_release()
 {
+  echo "::group::Install $1"
   name=$1
   folder=$2
   uri=$3
@@ -85,9 +90,10 @@ build_release()
     wget --quiet $uri -O - | tar -xz
   fi
   build_cmake_project $name $src_dir/$folder
+  echo "::endgroup::"
 }
 
-# Build Boost 1.74.0 with some libraries
+echo "::group::Install Boost 1.74.0"
 if [ ! -d $src_dir/boost_1_74_0 ]
 then
   cd $src_dir
@@ -108,15 +114,19 @@ export CXXFLAGS="-matomics -s USE_PTHREADS=1"
 # Copy our patched jam configuration
 cp $this_dir/emscripten.jam tools/build/src/tools/
 emconfigure ./b2 toolset=emscripten --with-filesystem --with-timer --with-program_options --with-system --with-serialization --prefix=$EM_PREFIX variant=release link=static install
+echo "::endgroup::"
 
 # Build f2c
+echo "::group::Install libf2c"
 if [ ! -d $src_dir/libf2c-emscripten ]
 then
-  git clone https://github.com/gergondet/libf2c-emscripten.git
+  cd $src_dir
+  git clone https://github.com/gergondet/libf2c-emscripten.git libf2c-emscripten
 fi
 cd $src_dir/libf2c-emscripten
 emmake make -j$(nproc)
 emmake make install
+echo "::endgroup::"
 
 # Build other dependencies
 
