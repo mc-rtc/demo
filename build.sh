@@ -92,6 +92,7 @@ build_release()
   uri=$3
   if [ ! -d $src_dir/$folder ]
   then
+    cd $src_dir
     wget --quiet $uri -O - | tar -xz
   fi
   build_cmake_project $name $src_dir/$folder
