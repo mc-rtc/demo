@@ -185,7 +185,7 @@ build_github jrl-umi3218/mc_rbdyn_urdf master
 build_github jrl-umi3218/mc_rtc_data master
 build_github jrl-umi3218/eigen-quadprog master
 
-export CMAKE_OPTIONS="${CMAKE_OPTIONS} -DDISABLE_ROS=ON -DMC_RTC_BUILD_STATIC=ON -DMC_RTC_DISABLE_NETWORK=ON"
+export CMAKE_OPTIONS="${CMAKE_OPTIONS} -DDISABLE_ROS=ON -DMC_RTC_BUILD_STATIC=ON -DMC_RTC_DISABLE_NETWORK=ON -DJVRC_DESCRIPTION_PATH=/assets/jvrc_description -DMC_ENV_DESCRIPTION_PATH=/assets/mc_env_description -DMC_INT_OBJ_DESCRIPTION_PATH=/assets/mc_int_obj_description"
 build_github gergondet/mc_rtc topic/wasm
 
 build_github gergondet/mc_rtc-raylib master
