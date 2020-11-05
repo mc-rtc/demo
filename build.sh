@@ -3,9 +3,9 @@
 set -euxo pipefail
 
 readonly this_dir=`cd $(dirname $0); pwd`
-readonly artifacts_dir=$this/artifacts
-readonly build_dir=$this/build
-readonly src_dir=$this/src
+readonly artifacts_dir=$this_dir/artifacts
+readonly build_dir=$this_dir/build
+readonly src_dir=$this_dir/src
 
 mkdir -p $artifacts_dir
 mkdir -p $build_dir
