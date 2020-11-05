@@ -20,7 +20,8 @@ then
   cd $this_dir
   wget --quiet https://github.com/Kitware/CMake/releases/download/v3.18.4/cmake-3.18.4-Linux-x86_64.tar.gz
   tar xzf cmake-3.18.4-Linux-x86_64.tar.gz
-  mv cmake-3.18.4-Linux-x86_64.tar.gz cmake
+  rm -f cmake-3.18.4-Linux-x86_64.tar.gz
+  mv cmake-3.18.4-Linux-x86_64 cmake
 fi
 export CMAKE=$this_dir/cmake/bin/cmake
 if [ ! -f $CMAKE ]
