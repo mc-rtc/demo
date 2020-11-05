@@ -32,11 +32,18 @@ $CMAKE --version
 echo "::endgroup::"
 
 echo "::group::Install emscripten"
-git clone https://github.com/emscripten-core/emsdk.git
-cd emsdk
-./emsdk install latest
-./emsdk activate latest
-source ./emsdk_env.sh
+if [ ! -d $this_dir/emsdk ]
+then
+  cd $this_dir
+  git clone https://github.com/emscripten-core/emsdk.git
+fi
+if [ ! -f $this_dir/emsdk/upstream/emscripten/emcc ]
+then
+  cd $this_dir/emsdk
+  ./emsdk install latest
+  ./emsdk activate latest
+fi
+source $this_dir/emsdk/emsdk_env.sh
 export EM_PREFIX=$EMSDK/upstream/emscripten/system
 echo "::endgroup::"
 

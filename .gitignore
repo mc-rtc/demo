@@ -1,3 +1,5 @@
 artifacts/
 build/
 src/
+cmake/
+emsdk/
