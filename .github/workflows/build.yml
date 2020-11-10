@@ -22,7 +22,11 @@ jobs:
       shell: bash
       run: |
         ./build.sh
-    - uses: actions/upload-artifact@v2
-      with:
-        name: demo
-        path: artifacts/
+        git clone -b gh-pages https://gergondet:${{ secrets.GH_PAGES_TOKEN }}@github.com/mc-rtc/demo /tmp/website
+        cp artifacts/* /tmp/website/
+        cd /tmp/website
+        git add .
+        git config --global user.email "pierre.gergondet@gmail.com"
+        git config --global user.name "Pierre Gergondet (Automated CI update)"
+        git commit -m "Automated update"
+        git push origin gh-pages
