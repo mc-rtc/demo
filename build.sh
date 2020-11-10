@@ -178,8 +178,7 @@ export CMAKE_OPTIONS="-DBUILD_TESTING=OFF -DPYTHON_BINDING=OFF -DUSE_F2C=ON -DIN
 build_github jrl-umi3218/SpaceVecAlg master
 build_github jrl-umi3218/sch-core master
 build_github jrl-umi3218/eigen-qld master
-# FIXME Change the source when RBDyn#76 is merged
-build_github gergondet/RBDyn topic/LoadMaterial
+build_github jrl-umi3218/RBDyn master
 build_github jrl-umi3218/Tasks master
 build_github jrl-umi3218/mc_rbdyn_urdf master
 build_github jrl-umi3218/mc_rtc_data master
