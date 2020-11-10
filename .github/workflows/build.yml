@@ -1,6 +1,9 @@
 name: Build mc_rtc web demo
 
 on:
+  repository_dispatch:
+    types:
+    - build-master
   push:
     branches:
       - '**'
