@@ -183,8 +183,13 @@ build_github jrl-umi3218/Tasks master
 build_github jrl-umi3218/mc_rbdyn_urdf master
 build_github jrl-umi3218/mc_rtc_data master
 build_github jrl-umi3218/eigen-quadprog master
+build_github jrl-umi3218/copra master
 
 export CMAKE_OPTIONS="${CMAKE_OPTIONS} -DDISABLE_ROS=ON -DMC_RTC_BUILD_STATIC=ON -DMC_RTC_DISABLE_NETWORK=ON -DJVRC_DESCRIPTION_PATH=/assets/jvrc_description -DMC_ENV_DESCRIPTION_PATH=/assets/mc_env_description -DMC_INT_OBJ_DESCRIPTION_PATH=/assets/mc_int_obj_description"
+git clone --recursive -b topic/wasm https://github.com/gergondet/mc_rtc $src_dir/mc_rtc
+cd $src_dir/mc_rtc/controllers/
+git clone --recursive -b topic/wasm https://github.com/gergondet/lipm_walking_controller
+cd $this_dir
 build_github gergondet/mc_rtc topic/wasm
 
 build_github gergondet/mc_rtc-raylib master
