@@ -185,10 +185,12 @@ build_github jrl-umi3218/mc_rtc_data master
 build_github jrl-umi3218/eigen-quadprog master
 build_github jrl-umi3218/copra master
 
-export CMAKE_OPTIONS="${CMAKE_OPTIONS} -DDISABLE_ROS=ON -DMC_RTC_BUILD_STATIC=ON -DMC_RTC_DISABLE_NETWORK=ON -DJVRC_DESCRIPTION_PATH=/assets/jvrc_description -DMC_ENV_DESCRIPTION_PATH=/assets/mc_env_description -DMC_INT_OBJ_DESCRIPTION_PATH=/assets/mc_int_obj_description"
+export CMAKE_OPTIONS="${CMAKE_OPTIONS} -DDISABLE_ROS=ON -DMC_RTC_BUILD_STATIC=ON -DMC_RTC_DISABLE_NETWORK=ON -DJVRC_DESCRIPTION_PATH=/assets/jvrc_description -DMC_ENV_DESCRIPTION_PATH=/assets/mc_env_description -DMC_INT_OBJ_DESCRIPTION_PATH=/assets/mc_int_obj_description -DMC_PANDA_WITH_FRANKA=OFF -DPANDA_DESCRIPTION_PATH=/assets/mc_panda"
 git clone --recursive -b topic/wasm https://github.com/gergondet/mc_rtc $src_dir/mc_rtc
 cd $src_dir/mc_rtc/controllers/
 git clone --recursive -b topic/wasm https://github.com/gergondet/lipm_walking_controller
+cd $src_dir/mc_rtc/robots/
+git clone --recursive -b topic/NoFrankaOption https://github.com/gergondet/mc_panda
 cd $this_dir
 build_github gergondet/mc_rtc topic/wasm
 
