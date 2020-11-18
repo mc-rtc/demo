@@ -23,7 +23,7 @@ jobs:
       run: |
         ./build.sh
         git clone -b gh-pages https://gergondet:${{ secrets.GH_PAGES_TOKEN }}@github.com/mc-rtc/demo /tmp/website
-        cp artifacts/* /tmp/website/
+        cp -r artifacts/* /tmp/website/
         cd /tmp/website
         git add .
         git config --global user.email "pierre.gergondet@gmail.com"
