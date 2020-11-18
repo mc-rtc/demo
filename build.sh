@@ -86,8 +86,11 @@ build_git()
     git clone --recursive $uri $src_dir/$name
     cd $src_dir/$name
     git checkout origin/$branch -B $branch || git checkout $branch -B $branch
-    git submodule sync --recursive && git submodule update --init --recursive
+  else
+    cd $src_dir/$name
+    git pull origin $branch
   fi
+  git submodule sync --recursive && git submodule update --init --recursive
   build_cmake_project $name $src_dir/$name
   echo "::endgroup::"
 }
@@ -185,14 +188,37 @@ build_github jrl-umi3218/mc_rtc_data master
 build_github jrl-umi3218/eigen-quadprog master
 build_github jrl-umi3218/copra master
 
-export CMAKE_OPTIONS="${CMAKE_OPTIONS} -DDISABLE_ROS=ON -DMC_RTC_BUILD_STATIC=ON -DMC_RTC_DISABLE_NETWORK=ON -DJVRC_DESCRIPTION_PATH=/assets/jvrc_description -DMC_ENV_DESCRIPTION_PATH=/assets/mc_env_description -DMC_INT_OBJ_DESCRIPTION_PATH=/assets/mc_int_obj_description -DMC_PANDA_WITH_FRANKA=OFF -DPANDA_DESCRIPTION_PATH=/assets/mc_panda"
-git clone --recursive -b topic/wasm https://github.com/gergondet/mc_rtc $src_dir/mc_rtc
+export CMAKE_OPTIONS="${CMAKE_OPTIONS} -DDISABLE_ROS=ON -DMC_RTC_BUILD_STATIC=ON -DMC_RTC_DISABLE_NETWORK=ON -DJVRC_DESCRIPTION_PATH=/assets/jvrc_description -DMC_ENV_DESCRIPTION_PATH=/assets/mc_env_description -DMC_INT_OBJ_DESCRIPTION_PATH=/assets/mc_int_obj_description -DMC_PANDA_WITH_FRANKA=OFF -DMC_PANDA_DISABLE_XACRO=ON -DPANDA_DESCRIPTION_PATH=/assets/mc_panda"
+if [ ! -d $src_dir/mc_rtc ]
+then
+  git clone --recursive -b topic/wasm https://github.com/gergondet/mc_rtc $src_dir/mc_rtc
+else
+  cd $src_dir/mc_rtc
+  git pull origin topic/wasm
+fi
 cd $src_dir/mc_rtc/controllers/
-git clone --recursive -b topic/wasm https://github.com/gergondet/lipm_walking_controller
+if [ ! -d lipm_walking_controller ]
+then
+  git clone --recursive -b topic/wasm https://github.com/gergondet/lipm_walking_controller
+else
+  cd lipm_walking_controller
+  git pull origin topic/wasm
+fi
 cd $src_dir/mc_rtc/robots/
-git clone --recursive -b topic/NoFrankaOption https://github.com/gergondet/mc_panda
+if [ ! -d mc_panda ]
+then
+  git clone --recursive -b topic/NoFrankaOption https://github.com/gergondet/mc_panda
+else
+  cd mc_panda
+  git pull origin topic/NoFrankaOption
+fi
 cd $this_dir
 build_github gergondet/mc_rtc topic/wasm
 
+# CMake does not generate proper dependencies for index.html so we force relinking
+if [ -f $build_dir/mc_rtc-raylib/index.html ]
+then
+  rm -f $build_dir/mc_rtc-raylib/index.*
+fi
 build_github gergondet/mc_rtc-raylib master
 cp $build_dir/mc_rtc-raylib/index.* $artifacts_dir/
