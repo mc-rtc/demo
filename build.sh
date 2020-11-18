@@ -222,3 +222,4 @@ then
 fi
 build_github gergondet/mc_rtc-raylib master
 cp $build_dir/mc_rtc-raylib/index.* $artifacts_dir/
+cp -r $build_dir/mc_rtc-raylib/img/ $artifacts_dir
